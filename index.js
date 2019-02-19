@@ -13,7 +13,7 @@ const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
 const FormData = require('form-data');
 
-function authorize(options) {
+async function authorize(options) {
   let {
     clientId,
     technicalAccountId,
@@ -33,7 +33,7 @@ function authorize(options) {
   metaScopes.length === 0 ? errors.push('metaScopes') : '';
   if (errors.length > 0) {
     return Promise.reject(
-      new Error('Required parameter(s) ' + errors.join(', ') + ' are missing')
+      new Error(`Required parameter(s) ${errors.join(', ')} are missing`)
     );
   }
 
