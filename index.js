@@ -33,7 +33,7 @@ function authorize(options) {
   metaScopes.length === 0 ? errors.push('metaScopes') : '';
   if (errors.length > 0) {
     return Promise.reject(
-      new Error('Required parameter(s) ' + errors.join(', ') + ' missing')
+      new Error('Required parameter(s) ' + errors.join(', ') + ' are missing')
     );
   }
 
