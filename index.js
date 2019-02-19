@@ -20,7 +20,7 @@ async function authorize(options) {
     orgId,
     clientSecret,
     privateKey,
-    metaScopes = [],
+    metaScopes,
     ims = 'https://ims-na1.adobelogin.com'
   } = options;
 
@@ -30,12 +30,17 @@ async function authorize(options) {
   !orgId ? errors.push('orgId') : '';
   !clientSecret ? errors.push('clientSecret') : '';
   !privateKey ? errors.push('privateKey') : '';
-  metaScopes.length === 0 ? errors.push('metaScopes') : '';
+  (!metaScopes || metaScopes.length === 0) ? errors.push('metaScopes') : '';
   if (errors.length > 0) {
     return Promise.reject(
       new Error(`Required parameter(s) ${errors.join(', ')} are missing`)
     );
   }
+  
+  if(metaScopes.constructor!==Array)
+  {
+    metaScopes=metaScopes.split(',');
+  }  
 
   const jwtPayload = {
     exp: Math.round(87000 + Date.now() / 1000),

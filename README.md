@@ -32,6 +32,15 @@ Example:
 ```
 const auth = require('@adobe/jwtauth');
 
+const options={
+    clientId : _config.credentials.api_key,
+    clientSecret : _config.credentials.client_secret,
+    technicalAccountId : _config.credentials.technical_account_id,
+    orgId : _config.credentials.org_id,
+    privateKey : _config.credentials.private_key,
+    metaScopes : _config.credentials.metaScopes
+};
+
 auth(options).then(token => console.log(token));
 ```
 
