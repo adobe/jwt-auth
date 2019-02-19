@@ -52,7 +52,12 @@ function authorize(options) {
     }
   }
 
-  const token = jwt.sign(jwtPayload, privateKey, { algorithm: 'RS256' });
+  let token;
+  try {
+    token = jwt.sign(jwtPayload, privateKey, { algorithm: 'RS256' });
+  } catch (tokenError) {
+    return Promise.reject(tokenError);
+  }
 
   const form = new FormData();
   form.append('client_id', clientId);
