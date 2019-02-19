@@ -20,7 +20,7 @@ function authorize(options) {
     orgId,
     clientSecret,
     privateKey,
-    metaScopes = [],
+    metaScopes,
     ims = 'https://ims-na1.adobelogin.com'
   } = options;
 
@@ -36,6 +36,8 @@ function authorize(options) {
       new Error('Required parameter(s) ' + errors.join(', ') + ' are missing')
     );
   }
+  
+  metaScopes=metaScopes.split(',');
 
   const jwtPayload = {
     exp: Math.round(87000 + Date.now() / 1000),
