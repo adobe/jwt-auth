@@ -43,15 +43,15 @@ console.log(token);
 
 The config object is where you pass in all the required and optional parameters to the `auth` call.
 
-| parameter          | integration name     | required | type   | default                        |
-| ------------------ | -------------------- | -------- | ------ | ------------------------------ |
-| clientId           | API Key (Client ID)  | true     | String |                                |
-| technicalAccountId | Technical account ID | true     | String |                                |
-| orgId              | Organization ID      | true     | String |                                |
-| clientSecret       | Client secret        | true     | String |                                |
-| privateKey         |                      | true     | String |                                |
-| metaScopes         |                      | true     | Array  |                                |
-| ims                |                      | false    | String | https://ims-na1.adobelogin.com |
+| parameter          | integration name     | required | type                              | default                        |
+| ------------------ | -------------------- | -------- | --------------------------------- | ------------------------------ |
+| clientId           | API Key (Client ID)  | true     | String                            |                                |
+| technicalAccountId | Technical account ID | true     | String                            |                                |
+| orgId              | Organization ID      | true     | String                            |                                |
+| clientSecret       | Client secret        | true     | String                            |                                |
+| privateKey         |                      | true     | String                            |                                |
+| metaScopes         |                      | true     | Comma separated Sting or an Array |                                |
+| ims                |                      | false    | String                            | https://ims-na1.adobelogin.com |
 
 #### Example
 
