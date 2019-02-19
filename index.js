@@ -37,7 +37,10 @@ function authorize(options) {
     );
   }
   
-  metaScopes=metaScopes.split(',');
+  if(metaScopes.constructor!==Array)
+  {
+    metaScopes=metaScopes.split(',');
+  }  
 
   const jwtPayload = {
     exp: Math.round(87000 + Date.now() / 1000),
