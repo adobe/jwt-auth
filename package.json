@@ -1,7 +1,7 @@
 {
-  "name": "jwtauth",
+  "name": "jwt-auth",
   "version": "0.0.1",
-  "description": "Retreive an authorization token from Adobe via JSON Web Token",
+  "description": "Retrieve an authorization token from Adobe via JSON Web Token",
   "main": "index.js",
   "scripts": {
     "test": "jest"
@@ -9,7 +9,7 @@
   "keywords": [
     "jwt"
   ],
-  "author": "",
+  "author": "Adobe Inc.",
   "license": "Apache-2.0",
   "dependencies": {
     "form-data": "^2.3.3",

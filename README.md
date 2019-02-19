@@ -1,4 +1,4 @@
-# jwtauth
+# jwt-auth
 
 Retrieve an Adobe bearer token via the JWT path
 
@@ -13,7 +13,7 @@ Instructions for how to download/install the code onto your machine.
 Example:
 
 ```
-npm install @adobe/jwtauth
+npm install @adobe/jwt-auth
 ```
 
 ### Common Usage
@@ -23,7 +23,7 @@ Usage instructions for your code.
 Promise based example:
 
 ```javascript
-const auth = require('@adobe/jwtauth');
+const auth = require('@adobe/jwt-auth');
 
 auth(config)
   .then(token => console.log(token));
@@ -33,7 +33,7 @@ auth(config)
 Async/Await based example:
 
 ```javascript
-const auth = require('@adobe/jwtauth');
+const auth = require('@adobe/jwt-auth');
 
 let token = await auth(config);
 console.log(token);
@@ -56,7 +56,7 @@ The config object is where you pass in all the required and optional parameters 
 #### Example
 
 ```javascript
-const auth = require('@adobe/jwtauth');
+const auth = require('@adobe/jwt-auth');
 const fs = require('fs');
 
 const config = {
