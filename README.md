@@ -1,17 +1,10 @@
-# @adobe/jwtauth
+# jwtauth
 
 Retrieve an Adobe bearer token via the JWT path
 
 ## Goals
 
-It is a good idea to provide a mission statement for your project, enshrining
-what the project wants to accomplish so that as more people join your project
-everyone can work in alignment.
-
-## Non-Goals
-
-It is also a good idea to declare what are _not_ goals of the project to prevent
-potential feature creep.
+Instead of every developer who wants to use the JWT Auth flow to retrieve an auth token from Adobe having to write their own implementation of this flow this package is intended to replace this need with one method call.
 
 ### Installation
 
@@ -23,25 +16,61 @@ Example:
 npm install @adobe/jwtauth
 ```
 
-### Usage
+### Common Usage
 
 Usage instructions for your code.
 
-Example:
+Promise based example:
 
-```
+```javascript
 const auth = require('@adobe/jwtauth');
 
-const options={
-    clientId : _config.credentials.api_key,
-    clientSecret : _config.credentials.client_secret,
-    technicalAccountId : _config.credentials.technical_account_id,
-    orgId : _config.credentials.org_id,
-    privateKey : _config.credentials.private_key,
-    metaScopes : _config.credentials.metaScopes
-};
+auth(config)
+  .then(token => console.log(token));
+  .catch(error => console.log(error));
+```
 
-auth(options).then(token => console.log(token));
+Async/Await based example:
+
+```javascript
+const auth = require('@adobe/jwtauth');
+
+let token = await auth(config);
+console.log(token);
+```
+
+#### Config object
+
+The config object is where you pass in all the required and optional parameters to the `auth` call.
+
+| parameter          | integration name     | required | type   | default                        |
+| ------------------ | -------------------- | -------- | ------ | ------------------------------ |
+| clientId           | API Key (Client ID)  | true     | String |                                |
+| technicalAccountId | Technical account ID | true     | String |                                |
+| orgId              | Organization ID      | true     | String |                                |
+| clientSecret       | Client secret        | true     | String |                                |
+| privateKey         |                      | true     | String |                                |
+| metaScopes         |                      | true     | Array  |                                |
+| ims                |                      | false    | String | https://ims-na1.adobelogin.com |
+
+#### Example
+
+```javascript
+const auth = require('@adobe/jwtauth');
+const fs = require('fs');
+
+const config = {
+  clientId: 'asasdfasf',
+  clientSecret: 'aslfjasljf-=asdfalasjdf==asdfa',
+  technicalAccountId: 'asdfasdfas@techacct.adobe.com',
+  orgId: 'asdfasdfasdf@AdobeOrg',
+  metaScopes: ['ent_dataservices_sdk']
+  };
+config.privateKey = fs.readFileSync('private.key');
+
+auth(config)
+  .then(token => console.log(token));
+  .catch(error => console.log(error));
 ```
 
 ### Contributing
