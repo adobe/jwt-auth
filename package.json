@@ -4,7 +4,7 @@
   "description": "Retreive an authorization token from Adobe via JSON Web Token",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "jwt"
@@ -15,5 +15,8 @@
     "form-data": "^2.3.3",
     "jsonwebtoken": "^8.4.0",
     "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "jest": "^24.1.0"
   }
 }
