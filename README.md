@@ -38,8 +38,7 @@ const options={
     technicalAccountId : _config.credentials.technical_account_id,
     orgId : _config.credentials.org_id,
     privateKey : _config.credentials.private_key,
-    metaScopes : _config.credentials.metaScopes,
-    ims : 'https://ims-na1.adobelogin.com'
+    metaScopes : _config.credentials.metaScopes
 };
 
 auth(options).then(token => console.log(token));
