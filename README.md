@@ -26,7 +26,7 @@ Promise based example:
 const auth = require('@adobe/jwt-auth');
 
 auth(config)
-  .then(token => console.log(token));
+  .then(token => console.log(token))
   .catch(error => console.log(error));
 ```
 
@@ -65,11 +65,11 @@ const config = {
   technicalAccountId: 'asdfasdfas@techacct.adobe.com',
   orgId: 'asdfasdfasdf@AdobeOrg',
   metaScopes: ['ent_dataservices_sdk']
-  };
+};
 config.privateKey = fs.readFileSync('private.key');
 
 auth(config)
-  .then(token => console.log(token));
+  .then(token => console.log(token))
   .catch(error => console.log(error));
 ```
 
