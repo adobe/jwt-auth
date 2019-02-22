@@ -32,9 +32,7 @@ async function authorize(options) {
   !privateKey ? errors.push('privateKey') : '';
   (!metaScopes || metaScopes.length === 0) ? errors.push('metaScopes') : '';
   if (errors.length > 0) {
-    return Promise.reject(
-      new Error(`Required parameter(s) ${errors.join(', ')} are missing`)
-    );
+    return Promise.reject(`Required parameter(s) ${errors.join(', ')} are missing`);
   }
   
   if(metaScopes.constructor!==Array)
