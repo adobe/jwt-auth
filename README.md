@@ -53,6 +53,42 @@ The config object is where you pass in all the required and optional parameters 
 | metaScopes         |                      | true     | Comma separated Sting or an Array |                                |
 | ims                |                      | false    | String                            | https://ims-na1.adobelogin.com |
 
+In order to determine which **metaScopes** you need to register for you can look them up by product in this [handy table](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/Scopes.md).
+
+For instance if you need to be authenticated to call API's for both GDPR and User Management you would [look them up](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/Scopes.md) and find that they are:
+
+- GDPR: https://ims-na1.adobelogin.com/s/ent_gdpr_sdk
+- User Management: https://ims-na1.adobelogin.com/s/ent_user_sdk
+
+They you would create an array of **metaScopes** as part of the config object. For instance:
+
+```javascript
+const config = {
+  clientId: 'asasdfasf',
+  clientSecret: 'aslfjasljf-=asdfalasjdf==asdfa',
+  technicalAccountId: 'asdfasdfas@techacct.adobe.com',
+  orgId: 'asdfasdfasdf@AdobeOrg',
+  metaScopes: [
+    'https://ims-na1.adobelogin.com/s/ent_gdpr_sdk',
+    'https://ims-na1.adobelogin.com/s/ent_user_sdk'
+  ]
+};
+```
+
+However, if you omit the IMS url the package will automatically add it for you when making the call to generate the JWT. For example:
+
+```javascript
+const config = {
+  clientId: 'asasdfasf',
+  clientSecret: 'aslfjasljf-=asdfalasjdf==asdfa',
+  technicalAccountId: 'asdfasdfas@techacct.adobe.com',
+  orgId: 'asdfasdfasdf@AdobeOrg',
+  metaScopes: ['ent_gdpr_sdk', 'ent_user_sdk']
+};
+```
+
+This is the recommended approach.
+
 #### Example
 
 ```javascript
