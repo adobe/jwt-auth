@@ -1,6 +1,6 @@
 {
   "name": "@adobe/jwt-auth",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Retrieve an authorization token from Adobe via JSON Web Token",
   "main": "index.js",
   "repository": {
