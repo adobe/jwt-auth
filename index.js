@@ -30,15 +30,16 @@ async function authorize(options) {
   !orgId ? errors.push('orgId') : '';
   !clientSecret ? errors.push('clientSecret') : '';
   !privateKey ? errors.push('privateKey') : '';
-  (!metaScopes || metaScopes.length === 0) ? errors.push('metaScopes') : '';
+  !metaScopes || metaScopes.length === 0 ? errors.push('metaScopes') : '';
   if (errors.length > 0) {
-    return Promise.reject(`Required parameter(s) ${errors.join(', ')} are missing`);
+    return Promise.reject(
+      `Required parameter(s) ${errors.join(', ')} are missing`
+    );
   }
-  
-  if(metaScopes.constructor!==Array)
-  {
-    metaScopes=metaScopes.split(',');
-  }  
+
+  if (metaScopes.constructor !== Array) {
+    metaScopes = metaScopes.split(',');
+  }
 
   const jwtPayload = {
     exp: Math.round(87000 + Date.now() / 1000),
@@ -48,7 +49,7 @@ async function authorize(options) {
   };
 
   for (let i = 0; i < metaScopes.length; i++) {
-    if (metaScopes.indexOf('https') > -1) {
+    if (metaScopes[i].indexOf('https') > -1) {
       jwtPayload[metaScopes[i]] = true;
     } else {
       jwtPayload[`${ims}/s/${metaScopes[i]}`] = true;
