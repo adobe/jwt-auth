@@ -74,7 +74,14 @@ async function authorize(options) {
     headers: form.getHeaders()
   };
 
-  return fetch(`${ims}/ims/exchange/jwt/`, postOptions).then(res => res.json());
+  return fetch(`${ims}/ims/exchange/jwt/`, postOptions)
+    .then(res => res.json())
+    .then(json => {
+      if (!json.access_token) {
+        return Promise.reject(json);
+      }
+      return json;
+    });
 }
 
 module.exports = authorize;
