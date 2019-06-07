@@ -20,6 +20,7 @@ async function authorize(options) {
     orgId,
     clientSecret,
     privateKey,
+    passphrase = '',
     metaScopes,
     ims = 'https://ims-na1.adobelogin.com'
   } = options;
@@ -58,7 +59,11 @@ async function authorize(options) {
 
   let token;
   try {
-    token = jwt.sign(jwtPayload, privateKey, { algorithm: 'RS256' });
+    token = jwt.sign(
+      jwtPayload,
+      { key: privateKey, passphrase },
+      { algorithm: 'RS256' }
+    );
   } catch (tokenError) {
     return Promise.reject(tokenError);
   }
