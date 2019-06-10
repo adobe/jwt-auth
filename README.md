@@ -50,6 +50,7 @@ The config object is where you pass in all the required and optional parameters 
 | orgId              | Organization ID      | true     | String                            |                                |
 | clientSecret       | Client secret        | true     | String                            |                                |
 | privateKey         |                      | true     | String                            |                                |
+| passphrase         |                      | false    | String                            |                                |
 | metaScopes         |                      | true     | Comma separated Sting or an Array |                                |
 | ims                |                      | false    | String                            | https://ims-na1.adobelogin.com |
 
