@@ -34,7 +34,7 @@ async function authorize(options) {
   !metaScopes || metaScopes.length === 0 ? errors.push('metaScopes') : '';
   if (errors.length > 0) {
     return Promise.reject(
-      `Required parameter(s) ${errors.join(', ')} are missing`
+      new Error(`Required parameter(s) ${errors.join(', ')} are missing`)
     );
   }
 
@@ -82,8 +82,13 @@ async function authorize(options) {
   return fetch(`${ims}/ims/exchange/jwt/`, postOptions)
     .then(res => res.json())
     .then(json => {
-      if (!json.access_token) {
-        return Promise.reject(json);
+      const { access_token, error, error_description } = json;
+      if (!access_token) {
+        if (error && error_description) {
+          return Promise.reject(new Error(`${error}: ${error_description}`));
+        } else {
+          return Promise.reject(new Error(`An unknown error occurred while swapping jwt. The response is as follows: ${JSON.stringify(json)}`));
+        }        
       }
       return json;
     });
