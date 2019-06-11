@@ -1,32 +1,31 @@
 // MOCKS ////////////////////////////////////////////
 
-const mockAccessToken = 'asdasdasd'
+const mockAccessToken = 'asdasdasd';
 
-let jwt = require('jsonwebtoken')
-let jwtActual = require.requireActual('jsonwebtoken')
-jest.mock('jsonwebtoken', () => jest.fn())
+let jwt = require('jsonwebtoken');
+let jwtActual = require.requireActual('jsonwebtoken');
+jest.mock('jsonwebtoken', () => jest.fn());
 
 let mockResultSuccess = Promise.resolve({
   ok: true,
-  json: () => Promise.resolve(
-    { access_token: mockAccessToken, expires_in: 123456 }
-  ) 
-})
+  json: () =>
+    Promise.resolve({ access_token: mockAccessToken, expires_in: 123456 })
+});
 let mockResultFailure = Promise.resolve({
   ok: false,
-  json: () => Promise.resolve(
-    { error: 'my_error_code', error_description: 'This is the error description.' }
-  ) 
-})
+  json: () =>
+    Promise.resolve({
+      error: 'my_error_code',
+      error_description: 'This is the error description.'
+    })
+});
 let mockResultFailureUnknown = Promise.resolve({
   ok: false,
-  json: () => Promise.resolve(
-    { foo: 'bar', baz: 'faz' }
-  ) 
-})
+  json: () => Promise.resolve({ foo: 'bar', baz: 'faz' })
+});
 
-let fetch = require('node-fetch')
-jest.mock('node-fetch', () => jest.fn())
+let fetch = require('node-fetch');
+jest.mock('node-fetch', () => jest.fn());
 
 // ////////////////////////////////////////////
 
@@ -42,7 +41,9 @@ const privateKey = 'aalsdjfajsldjfalsjkdfa;lsjf;aljs';
 describe('Validate input', () => {
   test('all parameters missing', () => {
     expect.assertions(1);
-    return expect(auth({})).rejects.toThrow('Required parameter(s) clientId, technicalAccountId, orgId, clientSecret, privateKey, metaScopes are missing');
+    return expect(auth({})).rejects.toThrow(
+      'Required parameter(s) clientId, technicalAccountId, orgId, clientSecret, privateKey, metaScopes are missing'
+    );
   });
   test('missing clientId', () => {
     expect.assertions(1);
@@ -110,13 +111,13 @@ describe('Sign with invalid primary key', () => {
   beforeEach(() => {
     jwt.sign = jest.fn().mockImplementation((...args) => {
       // call actual jwt module, not mocked version
-      return jwtActual.sign(...args)
-    })
-  })
+      return jwtActual.sign(...args);
+    });
+  });
 
   afterEach(() => {
-    jwt.sign.mockClear()
-  })
+    jwt.sign.mockClear();
+  });
 
   test('invalid primary key', () => {
     expect.assertions(1);
@@ -129,23 +130,23 @@ describe('Sign with invalid primary key', () => {
         metaScopes,
         privateKey
       })
-    ).rejects.toThrow('error:0906D06C:PEM routines:PEM_read_bio:no start line');
+    ).rejects.toThrowError(/no start line/);
   });
 });
 
 describe('Fetch jwt', () => {
   beforeEach(() => {
     jwt.sign = jest.fn().mockImplementation(() => {
-      return 'my_jwt_token'
-    })
-  })
+      return 'my_jwt_token';
+    });
+  });
 
   afterEach(() => {
-    jwt.sign.mockClear()
-  })
+    jwt.sign.mockClear();
+  });
 
   test('valid jwt', () => {
-    fetch.mockImplementation(()=> mockResultSuccess)
+    fetch.mockImplementation(() => mockResultSuccess);
     return expect(
       auth({
         clientId,
@@ -155,12 +156,12 @@ describe('Fetch jwt', () => {
         metaScopes,
         privateKey
       })
-    ).resolves.toEqual({"access_token": mockAccessToken, "expires_in": 123456});
+    ).resolves.toEqual({ access_token: mockAccessToken, expires_in: 123456 });
   });
 
   test('invalid jwt, expected endpoint error', () => {
     expect.assertions(1);
-    fetch.mockImplementation(()=> mockResultFailure)
+    fetch.mockImplementation(() => mockResultFailure);
     return expect(
       auth({
         clientId,
@@ -175,7 +176,7 @@ describe('Fetch jwt', () => {
 
   test('invalid jwt, unknown error', () => {
     expect.assertions(1);
-    fetch.mockImplementation(()=> mockResultFailureUnknown)    
+    fetch.mockImplementation(() => mockResultFailureUnknown);
     return expect(
       auth({
         clientId,
@@ -185,6 +186,8 @@ describe('Fetch jwt', () => {
         metaScopes,
         privateKey
       })
-    ).rejects.toThrow('An unknown error occurred while swapping jwt. The response is as follows: {\"foo\":\"bar\",\"baz\":\"faz\"}');
+    ).rejects.toThrow(
+      'An unknown error occurred while swapping jwt. The response is as follows: {"foo":"bar","baz":"faz"}'
+    );
   });
 });
