@@ -31,10 +31,10 @@ jest.mock('node-fetch', () => jest.fn());
 
 const auth = require('../index');
 
-const clientId = '9x4f87e5xxxf46x68f68x46ee6ef2738';
-const clientSecret = 'f39b8de7-35f5-4fc3-8615-f0561214x27d';
-const technicalAccountId = '53D840225B758DD00X495D9B@techacct.adobe.com';
-const orgId = 'C74F69D7594880280X495D09@AdobeOrg';
+const clientId = 'xxxxxxxxxxxxxxxxxxxxxx';
+const clientSecret = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+const technicalAccountId = 'xxxxxxxxxxxxxxxxxxxxxx@techacct.adobe.com';
+const orgId = 'xxxxxxxxxxxxxxxxxxxxxx@AdobeOrg';
 const metaScopes = ['ent_dataservices_sdk'];
 const privateKey = 'aalsdjfajsldjfalsjkdfa;lsjf;aljs';
 
