@@ -87,8 +87,14 @@ async function authorize(options) {
         if (error && error_description) {
           return Promise.reject(new Error(`${error}: ${error_description}`));
         } else {
-          return Promise.reject(new Error(`An unknown error occurred while swapping jwt. The response is as follows: ${JSON.stringify(json)}`));
-        }        
+          return Promise.reject(
+            new Error(
+              `An unknown error occurred while swapping jwt. The response is as follows: ${JSON.stringify(
+                json
+              )}`
+            )
+          );
+        }
       }
       return json;
     });
