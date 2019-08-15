@@ -171,6 +171,52 @@ describe('Fetch jwt', () => {
     ).resolves.toEqual({ access_token: mockAccessToken, expires_in: 123456 });
   });
 
+  test('valid jwt, qualified scopes', () => {
+    fetch.mockImplementation(() => mockResultSuccess);
+    const metaScopes = [
+      'https://ims-na1.adobelogin.com/s/ent_dataservices_sdk'
+    ];
+    jwt.sign = jest.fn().mockImplementation(payload => {
+      expect(payload[metaScopes[0]]).toBe(true);
+      return 'my_jwt_token';
+    });
+
+    return expect(
+      auth({
+        clientId,
+        clientSecret,
+        technicalAccountId,
+        orgId,
+        metaScopes,
+        privateKey
+      })
+    ).resolves.toEqual({ access_token: mockAccessToken, expires_in: 123456 });
+  });
+
+  test('valid jwt, unqualified scopes', () => {
+    fetch.mockImplementation(() => mockResultSuccess);
+    const metaScopes = 'ent_dataservices_sdk,some_other_scope';
+    jwt.sign = jest.fn().mockImplementation(payload => {
+      expect(
+        payload['https://ims-na1.adobelogin.com/s/ent_dataservices_sdk']
+      ).toBe(true);
+      expect(payload['https://ims-na1.adobelogin.com/s/some_other_scope']).toBe(
+        true
+      );
+      return 'my_jwt_token';
+    });
+    return expect(
+      auth({
+        clientId,
+        clientSecret,
+        technicalAccountId,
+        orgId,
+        metaScopes,
+        privateKey
+      })
+    ).resolves.toEqual({ access_token: mockAccessToken, expires_in: 123456 });
+  });
+
   test('invalid jwt, expected endpoint error', () => {
     expect.assertions(1);
     fetch.mockImplementation(() => mockResultFailure);
