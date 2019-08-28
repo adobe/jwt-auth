@@ -32,7 +32,7 @@ Promise based example:
 const auth = require('@adobe/jwt-auth');
 
 auth(config)
-  .then(token => console.log(token))
+  .then(tokenResponse => console.log(tokenResponse))
   .catch(error => console.log(error));
 ```
 
@@ -41,8 +41,17 @@ Async/Await based example:
 ```javascript
 const auth = require('@adobe/jwt-auth');
 
-let token = await auth(config);
-console.log(token);
+let tokenResponse = await auth(config);
+console.log(tokenResponse);
+```
+
+or (if you don't care about the other properties in the token response)
+
+```javascript
+const auth = require('@adobe/jwt-auth');
+
+let { access_token } = await auth(config);
+console.log(access_token);
 ```
 
 #### Config object
@@ -95,6 +104,14 @@ const config = {
 ```
 
 This is the recommended approach.
+
+#### Response Object
+
+The response object contains three keys:
+
+* `token_type`
+* `access_token`
+* `expires_in`
 
 #### Example
 
