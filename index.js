@@ -44,7 +44,7 @@ async function authorize(options) {
   }
 
   const jwtPayload = {
-    exp: Math.round(87000 + Date.now() / 1000),
+    exp: Math.round(300 + Date.now() / 1000),
     iss: orgId,
     sub: technicalAccountId,
     aud: `${ims}/c/${clientId}`
