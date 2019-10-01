@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "eslint": "^6.1.0",
+    "eslint-utils": ">=1.4.1",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "jest": "^24.1.0",
