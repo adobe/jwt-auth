@@ -21,8 +21,8 @@ declare namespace authorize {
   }
 
   export interface JWTAuthResponse {
-    token_code: string;
+    token_type: "bearer";
     access_token: string;
-    expires_in: string;
+    expires_in: number;
   }
 }
