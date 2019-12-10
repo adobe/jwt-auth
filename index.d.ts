@@ -12,7 +12,6 @@ governing permissions and limitations under the License.
 
 // Type definitions for @adobe/jwt-auth 0.3
 // Project: https://github.com/adobe/jwt-auth#readme
-// Definitions by: Andrew Leedham <https://andrewleedham.me>
 
 export = authorize;
 
