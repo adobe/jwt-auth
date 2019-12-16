@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "description": "Retrieve an authorization token from Adobe via JSON Web Token",
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/adobe/jwt-auth.git"
