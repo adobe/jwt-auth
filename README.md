@@ -7,7 +7,7 @@
 
 # jwt-auth
 
-Retrieve an Adobe bearer token via the JWT path
+Retrieve an Adobe bearer token via the JWT path.
 
 ## Goals
 
