@@ -2,7 +2,7 @@
 [![Downloads/week](https://img.shields.io/npm/dw/@adobe/jwt-auth.svg)](https://npmjs.org/package/@adobe/jwt-auth)
 [![Build Status](https://travis-ci.com/adobe/jwt-auth.svg?branch=master)](https://travis-ci.com/adobe/jwt-auth)
 [![codecov](https://codecov.io/gh/adobe/jwt-auth/branch/master/graph/badge.svg)](https://codecov.io/gh/adobe/jwt-auth)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Greenkeeper badge](https://badges.greenkeeper.io/adobe/jwt-auth.svg)](https://greenkeeper.io/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/adobe/jwt-auth.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adobe/jwt-auth/context:javascript)
 
 # jwt-auth
