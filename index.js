@@ -14,6 +14,27 @@ const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
 const FormData = require('form-data');
 
+const MISSING_PARAMS = 'missing_params';
+const SIGN_FAILED = 'sign_failed';
+const REQUEST_FAILED = 'request_failed';
+const UNEXPECTED_RESPONSE_BODY = 'invalid_response_body';
+
+const throwRequestFailedError = details => {
+  const error = new Error(
+    `Request failed while swapping the jwt token. ${details}`
+  );
+  error.code = REQUEST_FAILED;
+  throw error;
+};
+
+const throwUnexpectedResponseError = details => {
+  const error = new Error(
+    `Unexpected response received while swapping the jwt token. ${details}`
+  );
+  error.code = UNEXPECTED_RESPONSE_BODY;
+  throw error;
+};
+
 async function authorize(options) {
   let {
     clientId,
@@ -34,9 +55,11 @@ async function authorize(options) {
   !privateKey ? errors.push('privateKey') : '';
   !metaScopes || metaScopes.length === 0 ? errors.push('metaScopes') : '';
   if (errors.length > 0) {
-    return Promise.reject(
-      new Error(`Required parameter(s) ${errors.join(', ')} are missing`)
+    const missingParamsError = new Error(
+      `Required parameter(s) ${errors.join(', ')} are missing`
     );
+    missingParamsError.code = MISSING_PARAMS;
+    throw missingParamsError;
   }
 
   if (metaScopes.constructor !== Array) {
@@ -66,7 +89,8 @@ async function authorize(options) {
       { algorithm: 'RS256' }
     );
   } catch (tokenError) {
-    return Promise.reject(tokenError);
+    tokenError.code = SIGN_FAILED;
+    throw tokenError;
   }
 
   const form = new FormData();
@@ -81,19 +105,24 @@ async function authorize(options) {
   };
 
   return fetch(`${ims}/ims/exchange/jwt/`, postOptions)
-    .then(res => res.json())
+    .catch(e => throwRequestFailedError(e.message))
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throwRequestFailedError(res.statusText);
+      }
+    })
     .then(json => {
       const { access_token, error, error_description } = json;
       if (!access_token) {
         if (error && error_description) {
-          return Promise.reject(new Error(`${error}: ${error_description}`));
+          const swapError = new Error(error_description);
+          swapError.code = error;
+          throw swapError;
         } else {
-          return Promise.reject(
-            new Error(
-              `An unknown error occurred while swapping jwt. The response is as follows: ${JSON.stringify(
-                json
-              )}`
-            )
+          throwUnexpectedResponseError(
+            `The response body is as follows: ${JSON.stringify(json)}`
           );
         }
       }
