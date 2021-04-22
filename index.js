@@ -107,13 +107,12 @@ async function authorize(options) {
   return fetch(`${ims}/ims/exchange/jwt/`, postOptions)
     .catch(e => throwRequestFailedError(e.message))
     .then(res => {
-      // if (res.ok) {
-      return res.json();
-      // } else {
-      //   throwRequestFailedError(res.statusText);
-      // }
+      if (res.ok) {
+        return res.json();
+      } else {
+        throwRequestFailedError(res.statusText);
+      }
     })
-    .catch(e => throwUnexpectedResponseError(e.message))
     .then(json => {
       const { access_token, error, error_description } = json;
       if (!access_token) {
