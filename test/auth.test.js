@@ -24,16 +24,15 @@ let mockResultSuccess = Promise.resolve({
     Promise.resolve({ access_token: mockAccessToken, expires_in: 123456 })
 });
 // attempting to contact the API threw an error
-let mockEndpointFailure = Promise.reject(new Error('Endpoint error.'));
-// simple API failure
+let mockEndpointFailure = Promise.reject(new Error('500 error from server.'));
+// simple API failure, likely a customer issue
 let mockResultFailure = Promise.resolve({
   ok: false,
   status: 400,
-  statusText: 'You did something wrong for the jwt exchange.',
   json: () =>
     Promise.resolve({
       error: 'my_error_code',
-      error_description: 'This is the error description.'
+      error_description: 'This is the error description. Customer issue.'
     })
 });
 // no access token, error, or error_description
@@ -42,6 +41,7 @@ let mockResultFailureMalformedServerResponse = Promise.resolve({
   status: 200,
   json: () => Promise.resolve({ foo: 'bar', baz: 'faz' })
 });
+// good API call, but got an error with no access token
 let mockResultFailureNoJWT = Promise.resolve({
   ok: true,
   status: 200,
@@ -233,24 +233,27 @@ describe('Fetch jwt', () => {
     ).resolves.toEqual({ access_token: mockAccessToken, expires_in: 123456 });
   });
 
-  test('endpoint error thrown, unkown reason', () => {
-    expect.assertions(1);
+  test('endpoint error thrown, unknown reason', async () => {
+    expect.assertions(2);
     fetch.mockImplementation(() => mockEndpointFailure);
-    return expect(
-      auth({
+    try {
+      await auth({
         clientId,
         clientSecret,
         technicalAccountId,
         orgId,
         metaScopes,
         privateKey
-      })
-    ).rejects.toThrow(
-      'Request failed while swapping the jwt token. Endpoint error.'
-    );
+      });
+    } catch (e) {
+      expect(e.message).toBe(
+        'Request failed while swapping the jwt token. 500 error from server.'
+      );
+      expect(e.code).toBe('request_failed');
+    }
   });
 
-  test('invalid jwt, expected endpoint error', () => {
+  test('invalid jwt, expected endpoint error', async () => {
     expect.assertions(1);
     fetch.mockImplementation(() => mockResultFailure);
     return expect(
@@ -262,44 +265,44 @@ describe('Fetch jwt', () => {
         metaScopes,
         privateKey
       })
-    ).rejects.toThrow(
-      'Request failed while swapping the jwt token. You did something wrong for the jwt exchange.'
-    );
+    ).rejects.toThrow('This is the error description. Customer issue.');
   });
 
-  test('malformed server response, dump entire json() call', () => {
-    expect.assertions(1);
+  test('malformed server response, dump entire json() call', async () => {
+    expect.assertions(2);
     fetch.mockImplementation(() => mockResultFailureMalformedServerResponse);
-    return expect(
-      auth({
+    try {
+      await auth({
         clientId,
         clientSecret,
         technicalAccountId,
         orgId,
         metaScopes,
         privateKey
-      })
-    ).rejects.toThrow(
-      new Error(
+      });
+    } catch (e) {
+      expect(e.message).toBe(
         'Unexpected response received while swapping the jwt token. The response body is as follows: {"foo":"bar","baz":"faz"}'
-      )
-    );
+      );
+      expect(e.code).toBe('invalid_response_body');
+    }
   });
 
-  test('no access token, valid server response', () => {
-    expect.assertions(1);
+  test('no access token returned from IMS, valid server response', async () => {
+    expect.assertions(2);
     fetch.mockImplementation(() => mockResultFailureNoJWT);
-    return expect(
-      auth({
+    try {
+      await auth({
         clientId,
         clientSecret,
         technicalAccountId,
         orgId,
         metaScopes,
         privateKey
-      })
-    ).rejects.toThrow(
-      new Error('This is the error description. No JWT present.')
-    );
+      });
+    } catch (e) {
+      expect(e.message).toBe('This is the error description. No JWT present.');
+      expect(e.code).toBe('my_error_code_no_jwt');
+    }
   });
 });

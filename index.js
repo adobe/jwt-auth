@@ -107,26 +107,28 @@ async function authorize(options) {
   return fetch(`${ims}/ims/exchange/jwt/`, postOptions)
     .catch(e => throwRequestFailedError(e.message))
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throwRequestFailedError(res.statusText);
-      }
+      return res.json().then(data => {
+        return {
+          ok: res.ok,
+          json: data
+        };
+      });
     })
-    .then(json => {
+    .then(({ ok, json }) => {
       const { access_token, error, error_description } = json;
-      if (!access_token) {
-        if (error && error_description) {
-          const swapError = new Error(error_description);
-          swapError.code = error;
-          throw swapError;
-        } else {
-          throwUnexpectedResponseError(
-            `The response body is as follows: ${JSON.stringify(json)}`
-          );
-        }
+      if (ok && access_token) {
+        return json;
       }
-      return json;
+
+      if (error && error_description) {
+        const swapError = new Error(error_description);
+        swapError.code = error;
+        throw swapError;
+      } else {
+        throwUnexpectedResponseError(
+          `The response body is as follows: ${JSON.stringify(json)}`
+        );
+      }
     });
 }
 
