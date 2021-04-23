@@ -16,9 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+        with:
+          token: ${{ secrets.ADOBE_BOT_GITHUB_TOKEN }}
+      - name: Configure CI Git User
+        run: |
+          git config user.name adobe-bot
+          git config user.email grp-opensourceoffice@adobe.com
       - uses: actions/setup-node@v1
         with:
           node-version: 10
