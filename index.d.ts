@@ -13,6 +13,8 @@ governing permissions and limitations under the License.
 // Type definitions for @adobe/jwt-auth 0.3
 // Project: https://github.com/adobe/jwt-auth#readme
 
+import { Agent } from 'http'
+
 export = authorize;
 
 declare function authorize(
@@ -29,6 +31,7 @@ declare namespace authorize {
     passphrase?: string;
     metaScopes: string | string[];
     ims?: string;
+    agent?: Agent
   }
 
   export interface JWTAuthResponse {
