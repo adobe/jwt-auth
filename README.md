@@ -69,12 +69,14 @@ The config object is where you pass in all the required and optional parameters 
 | metaScopes         |                      | true     | Comma separated Sting or an Array |                                |
 | ims                |                      | false    | String                            | https://ims-na1.adobelogin.com |
 
-In order to determine which **metaScopes** you need to register for you can look them up by product in this [handy table](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/Scopes.md).
+[metascopes]: https://developer.adobe.com/developer-console/docs/guides/authentication/JWT/Scopes/ "metascope table"
 
-For instance if you need to be authenticated to call API's for both GDPR and User Management you would [look them up](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/Scopes.md) and find that they are:
+In order to determine which **metaScopes** you need to register for you can look them up by product in this [handy table][metascopes].
 
-- GDPR: https://ims-na1.adobelogin.com/s/ent_gdpr_sdk
-- User Management: https://ims-na1.adobelogin.com/s/ent_user_sdk
+For instance if you need to be authenticated to call API's for both GDPR and User Management you would [look them up][metascopes] and find that they are:
+
+- GDPR: `https://ims-na1.adobelogin.com/s/ent_gdpr_sdk`
+- User Management: `https://ims-na1.adobelogin.com/s/ent_user_sdk`
 
 They you would create an array of **metaScopes** as part of the config object. For instance:
 
