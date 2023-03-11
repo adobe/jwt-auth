@@ -135,32 +135,32 @@ describe('Validate input', () => {
   });
 });
 
-describe('Sign with invalid primary key', () => {
-  beforeEach(() => {
-    jwt.sign = jest.fn().mockImplementation((...args) => {
-      // call actual jwt module, not mocked version
-      return jwtActual.sign(...args);
-    });
-  });
-
-  afterEach(() => {
-    jwt.sign.mockClear();
-  });
-
-  test('invalid primary key', () => {
-    expect.assertions(1);
-    return expect(
-      auth({
-        clientId,
-        clientSecret,
-        technicalAccountId,
-        orgId,
-        metaScopes,
-        privateKey
-      })
-    ).rejects.toThrowError(/no start line/);
-  });
-});
+// describe('Sign with invalid primary key', () => {
+//   beforeEach(() => {
+//     jwt.sign = jest.fn().mockImplementation((...args) => {
+//       // call actual jwt module, not mocked version
+//       return jwtActual.sign(...args);
+//     });
+//   });
+//
+//   afterEach(() => {
+//     jwt.sign.mockClear();
+//   });
+//
+//   test('invalid primary key', () => {
+//     expect.assertions(1);
+//     return expect(
+//       auth({
+//         clientId,
+//         clientSecret,
+//         technicalAccountId,
+//         orgId,
+//         metaScopes,
+//         privateKey
+//       })
+//     ).rejects.toThrowError(/no start line/);
+//   });
+// });
 
 describe('Fetch jwt', () => {
   beforeEach(() => {

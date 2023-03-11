@@ -88,5 +88,3 @@ typings/
 
 # test files
 demo.js
-
-package-lock.json

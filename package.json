@@ -12,7 +12,7 @@
     "url": "https://github.com/adobe/jwt-auth/issues"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=14.21.2"
   },
   "scripts": {
     "lint": "eslint test index.js",
