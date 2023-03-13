@@ -15,7 +15,7 @@ governing permissions and limitations under the License.
 const mockAccessToken = 'asdasdasd';
 
 let jwt = require('jsonwebtoken');
-let jwtActual = require.requireActual('jsonwebtoken');
+let jwtActual = jest.requireActual('jsonwebtoken');
 jest.mock('jsonwebtoken', () => jest.fn());
 
 let mockResultSuccess = Promise.resolve({
@@ -158,7 +158,7 @@ describe('Sign with invalid primary key', () => {
         metaScopes,
         privateKey
       })
-    ).rejects.toThrowError(/no start line/);
+    ).rejects.toThrowError('secretOrPrivateKey is not valid key material');
   });
 });
 
