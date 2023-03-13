@@ -24,7 +24,7 @@ jobs:
           git config user.email grp-opensourceoffice@adobe.com
       - uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 16
       - run: |
           npm install
           npm test
